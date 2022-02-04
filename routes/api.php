@@ -35,6 +35,8 @@ use Illuminate\Support\Facades\Route;
 
 //Procted Routes
 
+
+Route::post('/login',[UserController::class,'login']);
 Route::post('/register',[UserContrller::class,'register']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -45,6 +47,7 @@ Route::put('/students/{id}',[StudentController::class,'update'])->name('show');
 Route::delete('students/{id}',[StudentController::class,'destroy']);
 Route::get('students/search/{city}',[StudentController::class,'search']);
 });
+Route::middleware('auth:sanctum')->post('/logout',[UserController::class,'logout']);
 
 
 
