@@ -28,4 +28,27 @@ class UserContrller extends Controller
 'token'=>$token,
         ],201);
     }  
+    public function logout(){
+        auth()->user()->tokens()->delete();
+        return response([
+        'message'=>'successfully Logout !!',
+        ]);
+    }
+    public function login(Request $request){
+         $request->validate([
+            'email'=>'required|email',
+            'password'=>'required',
+        ]);
+       $user=User::where('email',$request->email)->first();
+        if (!$user|| !Hash::check($request->password,$user->password)) {
+            return response([
+                'message'=>'The Providing crendentials are incorrect'
+            ],401);
+        }
+        $token=$user->createToken('myToken')->plainTextToken;
+        return response([
+                'user'=>$user,
+                'token'=>$token,
+        ],201);
+    }
 }
